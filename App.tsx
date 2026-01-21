@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FormStep, FormData } from './types';
 
 const App: React.FC = () => {
@@ -16,6 +16,11 @@ const App: React.FC = () => {
     successGoal: '',
     brandVibe: '',
   });
+
+  // Garante que o usuário sempre comece no topo da página ao mudar de etapa
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [step]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -41,12 +46,10 @@ const App: React.FC = () => {
       return;
     }
     setStep(prev => (prev < 3 ? prev + 1 : prev));
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const prevStep = () => {
     setStep(prev => (prev > 1 ? prev - 1 : prev));
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
